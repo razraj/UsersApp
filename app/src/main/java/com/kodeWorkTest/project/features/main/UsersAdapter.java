@@ -31,11 +31,11 @@ public class UsersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private final int VIEW_TYPE_LOADING = 1;
 
     private List<UserData> usersList = new ArrayList<>();
-    private Subject<UserData> pokemonClickSubject;
+    private Subject<UserData> userClickSubject;
 
     @Inject
     UsersAdapter() {
-        pokemonClickSubject = PublishSubject.create();
+        userClickSubject = PublishSubject.create();
     }
 
     public void setUsers(List<UserData> users) {
@@ -82,8 +82,8 @@ public class UsersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return usersList.size();
     }
 
-    Observable<UserData> getPokemonClick() {
-        return pokemonClickSubject;
+    Observable<UserData> getUserClick() {
+        return userClickSubject;
     }
 
     public void removeAll() {
@@ -111,7 +111,7 @@ public class UsersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         UsersViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            itemView.setOnClickListener(v -> pokemonClickSubject.onNext(userData));
+            itemView.setOnClickListener(v -> userClickSubject.onNext(userData));
         }
 
         void onBind(UserData userData) {

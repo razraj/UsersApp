@@ -17,7 +17,7 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    KodeWorkAPIService providePokemonApi(Retrofit retrofit) {
+    KodeWorkAPIService provideApi(Retrofit retrofit) {
         return retrofit.create(KodeWorkAPIService.class);
     }
 }

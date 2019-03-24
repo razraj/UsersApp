@@ -51,26 +51,4 @@ public class MainPresenterTest {
         mainPresenter.detachView();
     }
 
-//    @Test
-//    public void getPokemonReturnsPokemonNames() throws Exception {
-//        List<String> pokemonList = TestDataFactory.makePokemonNamesList(10);
-//        when(mockDataManager.getPokemonList(10)).thenReturn(Single.just(pokemonList));
-//
-//        mainPresenter.getUsers(10);
-//
-//        verify(mockMainMvpView, times(2)).showProgress(anyBoolean());
-//        verify(mockMainMvpView).showUsers(pokemonList, usersListResponse.getPage());
-//        verify(mockMainMvpView, never()).showError(any(Throwable.class));
-//    }
-//
-//    @Test
-//    public void getPokemonReturnsError() throws Exception {
-//        when(mockDataManager.getPokemonList(10)).thenReturn(Single.error(new RuntimeException()));
-//
-//        mainPresenter.getUsers(10);
-//
-//        verify(mockMainMvpView, times(2)).showProgress(anyBoolean());
-//        verify(mockMainMvpView).showError(any(Throwable.class));
-//        verify(mockMainMvpView, never()).showUsers(ArgumentMatchers.anyList(), usersListResponse.getPage());
-//    }
 }

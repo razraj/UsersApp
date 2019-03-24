@@ -30,6 +30,8 @@ import timber.log.Timber;
 
 public class MainActivity extends BaseActivity implements MainMvpView, ErrorView.ErrorListener {
 
+    static final String STATE_PAGE_NUMBER = "pageNumber";
+    static final String STATE_MAX_PAGE_NUMBER = "maxPageNumber";
     private static final int USERS_PER_PAGE_COUNT = 6;
     private int pageNumber = 1;
     private int maxPageNumber = 1;
@@ -47,8 +49,8 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
     @BindView(R.id.progress)
     ProgressBar progressBar;
 
-    @BindView(R.id.recycler_pokemon)
-    RecyclerView pokemonRecycler;
+    @BindView(R.id.recycler_user)
+    RecyclerView userRecycler;
 
     @BindView(R.id.swipe_to_refresh)
     SwipeRefreshLayout swipeRefreshLayout;
@@ -70,15 +72,15 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
         });
 
         layoutManager = new LinearLayoutManager(this);
-        pokemonRecycler.setLayoutManager(layoutManager);
-        pokemonRecycler.setAdapter(usersAdapter);
+        userRecycler.setLayoutManager(layoutManager);
+        userRecycler.setAdapter(usersAdapter);
         userClicked();
         errorView.setErrorListener(this);
 
         mainPresenter.getUsers(pageNumber, USERS_PER_PAGE_COUNT);
 
         Observable<Integer> pageDetector = Observable.create((ObservableOnSubscribe<Integer>) subscriber ->
-                pokemonRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                userRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
                     int pastVisibleItems, visibleItemCount, totalItemCount;
 
                     @Override
@@ -105,13 +107,13 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
     private void userClicked() {
         Disposable disposable =
                 usersAdapter
-                        .getPokemonClick()
+                        .getUserClick()
                         .subscribe(
                                 userData -> {
                                     //start activity
                                 },
                                 throwable -> {
-                                    Timber.e(throwable, "Pokemon click failed");
+                                    Timber.e(throwable, "click failed");
                                     Toast.makeText(
                                             this,
                                             R.string.error_something_bad_happened,
@@ -146,20 +148,20 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
         usersAdapter.setUsers(users);
         if (pageNumber == maxPageNumber)
             usersAdapter.hideLoader();
-        pokemonRecycler.setVisibility(View.VISIBLE);
+        userRecycler.setVisibility(View.VISIBLE);
         swipeRefreshLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showProgress(boolean show) {
         if (show) {
-            if (pokemonRecycler.getVisibility() == View.VISIBLE
+            if (userRecycler.getVisibility() == View.VISIBLE
                     && usersAdapter.getItemCount() > 0) {
                 swipeRefreshLayout.setRefreshing(true);
             } else {
                 progressBar.setVisibility(View.VISIBLE);
 
-                pokemonRecycler.setVisibility(View.GONE);
+                userRecycler.setVisibility(View.GONE);
                 swipeRefreshLayout.setVisibility(View.GONE);
             }
 
@@ -172,10 +174,10 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
 
     @Override
     public void showError(Throwable error) {
-        pokemonRecycler.setVisibility(View.GONE);
+        userRecycler.setVisibility(View.GONE);
         swipeRefreshLayout.setVisibility(View.GONE);
         errorView.setVisibility(View.VISIBLE);
-        Timber.e(error, "There was an error retrieving the pokemon");
+        Timber.e(error, "There was an error retrieving the users");
     }
 
     @Override
@@ -188,5 +190,12 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
     @Override
     public void onReloadData() {
         mainPresenter.getUsers(pageNumber, USERS_PER_PAGE_COUNT);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(STATE_PAGE_NUMBER, pageNumber);
+        outState.putInt(STATE_MAX_PAGE_NUMBER, maxPageNumber);
+        super.onSaveInstanceState(outState);
     }
 }
