@@ -10,9 +10,7 @@
 - [Timber](https://github.com/JakeWharton/timber)
 - [Glide 3](https://github.com/bumptech/glide)
 - [Stetho](http://facebook.github.io/stetho/)
-- [Espresso](https://google.github.io/android-testing-support-library/) for UI tests
-- [Robolectric](http://robolectric.org/) for framework specific unit tests
-- [Mockito](http://mockito.org/)
+- [Realm](https://realm.io/) for Database
 - [Checkstyle](http://checkstyle.sourceforge.net/), [PMD](https://pmd.github.io/) and [Findbugs](http://findbugs.sourceforge.net/) for code analysis
 
 ## Building
