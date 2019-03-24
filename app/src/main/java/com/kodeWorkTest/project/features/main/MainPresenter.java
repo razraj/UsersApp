@@ -26,7 +26,7 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
         super.attachView(mvpView);
     }
 
-    public void getUsers(int page,int limit) {
+    public void getUsers(int page, int limit) {
         checkViewAttached();
         getView().showProgress(true);
         usersDisposable = dataManager
@@ -35,7 +35,7 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
                 .doOnSuccess(dataManager::updateUsers)
                 .onErrorReturn(throwable -> {
                     Timber.e(throwable);
-                    return dataManager.getUsers(page,limit);
+                    return dataManager.getUsers(page, limit);
                 })
                 .subscribe(usersListResponse -> {
                             getView().showProgress(false);

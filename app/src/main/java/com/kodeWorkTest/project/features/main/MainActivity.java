@@ -32,7 +32,7 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
 
     static final String STATE_PAGE_NUMBER = "pageNumber";
     static final String STATE_MAX_PAGE_NUMBER = "maxPageNumber";
-    private static final int USERS_PER_PAGE_COUNT = 6;
+    private static final int USERS_PER_PAGE_COUNT = 8;
     private int pageNumber = 1;
     private int maxPageNumber = 1;
 
@@ -157,7 +157,7 @@ public class MainActivity extends BaseActivity implements MainMvpView, ErrorView
         if (show) {
             if (userRecycler.getVisibility() == View.VISIBLE
                     && usersAdapter.getItemCount() > 0) {
-                swipeRefreshLayout.setRefreshing(true);
+//                swipeRefreshLayout.setRefreshing(true);
             } else {
                 progressBar.setVisibility(View.VISIBLE);
 
